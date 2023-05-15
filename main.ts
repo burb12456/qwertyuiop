@@ -29,11 +29,11 @@ radio.onReceivedNumber(function (receivedNumber) {
             life += -1
         }
         basic.pause(100)
-        led.unplot(dummy_x + -1, 3)
+        led.unplot(-1 + dummy_x, 3)
     }
     if (receivedNumber == 3) {
         let dummy_x2 = 0
-        led.plot(1 + dummy_x, 3)
+        led.plot(dummy_x + 1, 3)
         if (player_1_X + -1 == dummy_x) {
             led.unplot(player_1_X, 4)
             led.unplot(player_1_X, 3)
@@ -48,7 +48,7 @@ radio.onReceivedNumber(function (receivedNumber) {
             life += -1
         }
         basic.pause(100)
-        led.unplot(dummy_x2 + 1, 3)
+        led.unplot(1 + dummy_x2, 3)
     }
     if (90 == receivedNumber) {
         basic.showIcon(IconNames.StickFigure)
