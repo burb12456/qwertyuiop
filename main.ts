@@ -117,7 +117,7 @@ let player_direction = 0
 let dummy_x = 0
 let dummy_y = 0
 let life = 3
-let life_checker = life
+let life_checker = life + 1
 radio.setGroup(1)
 radio.sendNumber(99999)
 led.setDisplayMode(DisplayMode.Greyscale)
