@@ -1,14 +1,12 @@
-radio.onReceivedNumber(function on_received_number(receivedNumber: number) {
+radio.onReceivedNumber(function (receivedNumber) {
     let dummy_x2: number;
-    
-    if (receivedNumber == 1) {
+if (receivedNumber == 1) {
         led.unplot(dummy_x, dummy_y)
         led.unplot(dummy_x, dummy_y + 1)
         dummy_x += -1
         led.plot(dummy_x, dummy_y)
         led.plot(dummy_x, dummy_y + 1)
     }
-    
     if (receivedNumber == 2) {
         led.unplot(dummy_x, dummy_y)
         led.unplot(dummy_x, dummy_y + 1)
@@ -16,7 +14,6 @@ radio.onReceivedNumber(function on_received_number(receivedNumber: number) {
         led.plot(dummy_x, dummy_y)
         led.plot(dummy_x, dummy_y + 1)
     }
-    
     if (receivedNumber == 0) {
         led.plot(-1 + dummy_x, 3)
         if (player_1_X + 1 == dummy_x) {
@@ -32,11 +29,9 @@ radio.onReceivedNumber(function on_received_number(receivedNumber: number) {
             led.plot(player_1_X, 4)
             life += -1
         }
-        
         basic.pause(100)
         led.unplot(-1 + dummy_x, 3)
     }
-    
     if (receivedNumber == 3) {
         dummy_x2 = 0
         led.plot(dummy_x + 1, 3)
@@ -53,26 +48,21 @@ radio.onReceivedNumber(function on_received_number(receivedNumber: number) {
             led.plot(player_1_X, 4)
             life += -1
         }
-        
         basic.pause(100)
         led.unplot(1 + dummy_x2, 3)
     }
-    
     if (90 == receivedNumber) {
         basic.showIcon(IconNames.StickFigure)
     }
-    
 })
-input.onButtonPressed(Button.A, function on_button_pressed_a() {
-    
+input.onButtonPressed(Button.A, function () {
     player_direction = -1
     led.unplot(player_1_X, 4)
     led.unplot(player_1_X, 3)
     player_1_X += -1
     radio.sendNumber(2)
 })
-input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
-    
+input.onButtonPressed(Button.AB, function () {
     bullet_x = player_1_X
     bullet_x += player_direction
     led.plot(bullet_x, 3)
@@ -83,7 +73,6 @@ input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
     } else {
         radio.sendNumber(0)
     }
-    
     if (player_direction == 1) {
         if (dummy_x == player_1_X + 1) {
             led.unplot(dummy_x, 4)
@@ -97,7 +86,6 @@ input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
             led.plot(dummy_x, 3)
             led.plot(dummy_x, 4)
         }
-        
     } else if (player_direction == -1) {
         if (dummy_x == player_1_X + -1) {
             led.unplot(dummy_x, 4)
@@ -111,12 +99,9 @@ input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
             led.plot(dummy_x, 3)
             led.plot(dummy_x, 4)
         }
-        
     }
-    
 })
-input.onButtonPressed(Button.B, function on_button_pressed_b() {
-    
+input.onButtonPressed(Button.B, function () {
     player_direction = 1
     led.unplot(player_1_X, 4)
     led.unplot(player_1_X, 3)
@@ -131,8 +116,8 @@ let player_1_X = 0
 let player_direction = 0
 let dummy_x = 0
 let dummy_y = 0
-let life_checker = 4
 let life = 3
+let life_checker = life
 radio.setGroup(1)
 radio.sendNumber(99999)
 led.setDisplayMode(DisplayMode.Greyscale)
@@ -151,12 +136,10 @@ if (fall == 0) {
     }
     fall = 1
 }
-
-loops.everyInterval(1000, function on_every_interval() {
-    
+loops.everyInterval(1000, function () {
+	
 })
-basic.forever(function on_forever() {
-    
+basic.forever(function () {
     led.plot(player_1_X, 4)
     led.plot(player_1_X, 3)
     if (player_direction == 1) {
@@ -164,21 +147,20 @@ basic.forever(function on_forever() {
     } else {
         rpeate = 0 + player_1_X
     }
-    
     if (life == 0) {
         basic.showIcon(IconNames.Skull)
         radio.sendNumber(90)
     }
-    
     if (!(life == life_checker)) {
         life_mover = 0
-        led.unplot(0, 0)
-        led.unplot(1, 0)
-        led.unplot(2, 0)
-        for (let index2 = 0; index2 < life; index2++) {
+        for (let index = 0; index < life; index++) {
+            led.unplot(life_mover, 0)
+            life_mover += 1
+        }
+        life_mover = 0
+        for (let index = 0; index < life; index++) {
             led.plot(life_mover, 0)
             life_mover += 1
         }
     }
-    
 })
