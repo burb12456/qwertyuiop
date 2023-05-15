@@ -35,8 +35,8 @@ radio.onReceivedNumber(function (receivedNumber) {
         let dummy_x2 = 0
         led.plot(1 + dummy_x, 3)
         if (player_1_X + -1 == dummy_x) {
-            led.unplot(player_1_X, 3)
             led.unplot(player_1_X, 4)
+            led.unplot(player_1_X, 3)
             player_1_X += 1
             led.plot(player_1_X, 3)
             led.plot(player_1_X, 2)
@@ -49,6 +49,9 @@ radio.onReceivedNumber(function (receivedNumber) {
         }
         basic.pause(100)
         led.unplot(dummy_x2 + 1, 3)
+    }
+    if (90 == receivedNumber) {
+        basic.showIcon(IconNames.StickFigure)
     }
 })
 input.onButtonPressed(Button.A, function () {
@@ -106,6 +109,7 @@ input.onButtonPressed(Button.B, function () {
     player_1_X += 1
     radio.sendNumber(1)
 })
+let life_mover = 0
 let rpeate = 0
 let bullet_x = 0
 let fall = 0
@@ -113,6 +117,7 @@ let player_1_X = 0
 let player_direction = 0
 let dummy_x = 0
 let dummy_y = 0
+let life_checker = 4
 let life = 3
 radio.setGroup(1)
 radio.sendNumber(99999)
@@ -144,6 +149,17 @@ basic.forever(function () {
         rpeate = 0 + player_1_X
     }
     if (life == 0) {
+        basic.showIcon(IconNames.Skull)
         radio.sendNumber(90)
+    }
+    if (!(life == life_checker)) {
+        life_mover = 0
+        led.unplot(0, 0)
+        led.unplot(1, 0)
+        led.unplot(2, 0)
+        for (let index = 0; index < life; index++) {
+            led.plot(life_mover, 0)
+            life_mover += 1
+        }
     }
 })
