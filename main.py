@@ -1,25 +1,20 @@
-radio.onReceivedNumber(function on_received_number(receivedNumber: number) {
-    let dummy_x2: number;
-    
-    if (receivedNumber == 1) {
+def on_received_number(receivedNumber):
+    global dummy_x, player_1_X, life
+    if receivedNumber == 1:
         led.unplot(dummy_x, dummy_y)
         led.unplot(dummy_x, dummy_y + 1)
         dummy_x += -1
         led.plot(dummy_x, dummy_y)
         led.plot(dummy_x, dummy_y + 1)
-    }
-    
-    if (receivedNumber == 2) {
+    if receivedNumber == 2:
         led.unplot(dummy_x, dummy_y)
         led.unplot(dummy_x, dummy_y + 1)
         dummy_x += 1
         led.plot(dummy_x, dummy_y)
         led.plot(dummy_x, dummy_y + 1)
-    }
-    
-    if (receivedNumber == 0) {
+    if receivedNumber == 0:
         led.plot(-1 + dummy_x, 3)
-        if (player_1_X + 1 == dummy_x) {
+        if player_1_X + 1 == dummy_x:
             led.unplot(player_1_X, 4)
             led.unplot(player_1_X, 3)
             player_1_X += -1
@@ -31,16 +26,12 @@ radio.onReceivedNumber(function on_received_number(receivedNumber: number) {
             led.plot(player_1_X, 3)
             led.plot(player_1_X, 4)
             life += -1
-        }
-        
         basic.pause(100)
         led.unplot(-1 + dummy_x, 3)
-    }
-    
-    if (receivedNumber == 3) {
+    if receivedNumber == 3:
         dummy_x2 = 0
         led.plot(dummy_x + 1, 3)
-        if (player_1_X + -1 == dummy_x) {
+        if player_1_X + -1 == dummy_x:
             led.unplot(player_1_X, 4)
             led.unplot(player_1_X, 3)
             player_1_X += 1
@@ -52,40 +43,34 @@ radio.onReceivedNumber(function on_received_number(receivedNumber: number) {
             led.plot(player_1_X, 3)
             led.plot(player_1_X, 4)
             life += -1
-        }
-        
         basic.pause(100)
         led.unplot(1 + dummy_x2, 3)
-    }
-    
-    if (90 == receivedNumber) {
-        basic.showIcon(IconNames.StickFigure)
-    }
-    
-})
-input.onButtonPressed(Button.A, function on_button_pressed_a() {
-    
+    if 90 == receivedNumber:
+        basic.show_icon(IconNames.STICK_FIGURE)
+radio.on_received_number(on_received_number)
+
+def on_button_pressed_a():
+    global player_direction, player_1_X
     player_direction = -1
     led.unplot(player_1_X, 4)
     led.unplot(player_1_X, 3)
     player_1_X += -1
-    radio.sendNumber(2)
-})
-input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
-    
+    radio.send_number(2)
+input.on_button_pressed(Button.A, on_button_pressed_a)
+
+def on_button_pressed_ab():
+    global bullet_x, dummy_x
     bullet_x = player_1_X
     bullet_x += player_direction
     led.plot(bullet_x, 3)
     basic.pause(100)
     led.unplot(bullet_x, 3)
-    if (player_direction == -1) {
-        radio.sendNumber(3)
-    } else {
-        radio.sendNumber(0)
-    }
-    
-    if (player_direction == 1) {
-        if (dummy_x == player_1_X + 1) {
+    if player_direction == -1:
+        radio.send_number(3)
+    else:
+        radio.send_number(0)
+    if player_direction == 1:
+        if dummy_x == player_1_X + 1:
             led.unplot(dummy_x, 4)
             led.unplot(dummy_x, 3)
             dummy_x += 1
@@ -96,10 +81,8 @@ input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
             led.unplot(dummy_x, 3)
             led.plot(dummy_x, 3)
             led.plot(dummy_x, 4)
-        }
-        
-    } else if (player_direction == -1) {
-        if (dummy_x == player_1_X + -1) {
+    elif player_direction == -1:
+        if dummy_x == player_1_X + -1:
             led.unplot(dummy_x, 4)
             led.unplot(dummy_x, 3)
             dummy_x += -1
@@ -110,75 +93,65 @@ input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
             led.unplot(dummy_x, 3)
             led.plot(dummy_x, 3)
             led.plot(dummy_x, 4)
-        }
-        
-    }
-    
-})
-input.onButtonPressed(Button.B, function on_button_pressed_b() {
-    
+input.on_button_pressed(Button.AB, on_button_pressed_ab)
+
+def on_button_pressed_b():
+    global player_direction, player_1_X
     player_direction = 1
     led.unplot(player_1_X, 4)
     led.unplot(player_1_X, 3)
     player_1_X += 1
-    radio.sendNumber(1)
-})
-let life_mover = 0
-let rpeate = 0
-let bullet_x = 0
-let fall = 0
-let player_1_X = 0
-let player_direction = 0
-let dummy_x = 0
-let dummy_y = 0
-let life_checker = 4
-let life = 3
-radio.setGroup(1)
-radio.sendNumber(99999)
-led.setDisplayMode(DisplayMode.Greyscale)
+    radio.send_number(1)
+input.on_button_pressed(Button.B, on_button_pressed_b)
+
+life_mover = 0
+rpeate = 0
+bullet_x = 0
+fall = 0
+player_1_X = 0
+player_direction = 0
+dummy_x = 0
+dummy_y = 0
+life_checker = 4
+life = 3
+radio.set_group(1)
+radio.send_number(99999)
+led.set_display_mode(DisplayMode.GREYSCALE)
 dummy_y = 0
 dummy_x = 4
 player_direction = 1
 player_1_X = 0
-if (fall == 0) {
-    for (let index = 0; index < 3; index++) {
+if fall == 0:
+    for index in range(3):
         basic.pause(100)
         led.unplot(dummy_x, dummy_y)
         led.unplot(dummy_x, dummy_y + 1)
         dummy_y += 1
-        led.plotBrightness(dummy_x, dummy_y, 103)
-        led.plotBrightness(dummy_x, dummy_y + 1, 105)
-    }
+        led.plot_brightness(dummy_x, dummy_y, 103)
+        led.plot_brightness(dummy_x, dummy_y + 1, 105)
     fall = 1
-}
 
-loops.everyInterval(1000, function on_every_interval() {
-    
-})
-basic.forever(function on_forever() {
-    
+def on_every_interval():
+    pass
+loops.every_interval(1000, on_every_interval)
+
+def on_forever():
+    global rpeate, life_mover
     led.plot(player_1_X, 4)
     led.plot(player_1_X, 3)
-    if (player_direction == 1) {
+    if player_direction == 1:
         rpeate = 7 - player_1_X
-    } else {
+    else:
         rpeate = 0 + player_1_X
-    }
-    
-    if (life == 0) {
-        basic.showIcon(IconNames.Skull)
-        radio.sendNumber(90)
-    }
-    
-    if (!(life == life_checker)) {
+    if life == 0:
+        basic.show_icon(IconNames.SKULL)
+        radio.send_number(90)
+    if not (life == life_checker):
         life_mover = 0
         led.unplot(0, 0)
         led.unplot(1, 0)
         led.unplot(2, 0)
-        for (let index2 = 0; index2 < life; index2++) {
+        for index2 in range(life):
             led.plot(life_mover, 0)
             life_mover += 1
-        }
-    }
-    
-})
+basic.forever(on_forever)
