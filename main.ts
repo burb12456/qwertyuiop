@@ -153,7 +153,7 @@ basic.forever(function () {
     }
     if (!(life == life_checker)) {
         life_mover = 0
-        for (let index = 0; index < life; index++) {
+        for (let index = 0; index < 15; index++) {
             led.unplot(life_mover, 0)
             life_mover += 1
         }
